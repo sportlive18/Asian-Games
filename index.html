@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sportlink - Asian Games 2026 Live</title>
+
+<!-- Ad script (ProfitableRateCPM network) -->
+<script src="https://pl31358401.profitableratecpmnetwork.com/a3/81/41/a38141b4ff99f6ef8dbf9dc5f76bd86b.js"></script>
+
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #111827;
+    --bg3: #1a2233;
+    --accent: #f97316;
+    --accent2: #ef4444;
+    --gold: #fbbf24;
+    --text: #f1f5f9;
+    --text2: #94a3b8;
+    --border: rgba(255,255,255,0.08);
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0a0e1a 0%, #1a0a2e 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900; color: #fff;
+  }
+  .logo-text { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
+  .logo-text span { color: var(--accent); }
+  .live-badge {
+    background: var(--accent2); color: #fff;
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    padding: 2px 7px; border-radius: 4px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .games-badge {
+    background: linear-gradient(90deg, var(--gold), #f97316);
+    color: #000; font-size: 11px; font-weight: 700;
+    padding: 4px 10px; border-radius: 20px;
+    display: none;
+  }
+  @media(min-width:480px){ .games-badge { display: block; } }
+
+  /* PLAYER */
+  .player-section {
+    background: #000;
+    position: relative;
+  }
+  .player-wrapper {
+    width: 100%;
+    padding-top: 56.25%;
+    position: relative;
+    max-height: 50vh;
+  }
+  .player-wrapper iframe {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+    display: none;
+  }
+  .player-overlay {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    background: #000; flex-direction: column; gap: 16px;
+  }
+  .player-overlay.hidden { display: none; }
+  .play-icon { font-size: 60px; opacity: 0.3; }
+  .player-overlay p { color: var(--text2); font-size: 14px; }
+
+  /* INFO BAR */
+  .channel-info-bar {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 12px;
+    display: flex; align-items: center; gap: 8px;
+    flex-wrap: wrap;
+  }
+  .now-playing-label {
+    font-size: 11px; color: var(--text2);
+    text-transform: uppercase; letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .now-playing-name {
+    font-size: 13px; font-weight: 600;
+    color: var(--accent); flex: 1;
+  }
+  .platform-badge {
+    font-size: 10px; padding: 2px 7px;
+    border-radius: 4px; font-weight: 600;
+    white-space: nowrap;
+  }
+  .platform-badge.desktop { background: rgba(99,102,241,0.2); color: #818cf8; }
+  .platform-badge.android { background: rgba(34,197,94,0.2); color: #4ade80; }
+  .platform-badge.ios { background: rgba(59,130,246,0.2); color: #60a5fa; }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 10px 16px;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    color: var(--text2);
+    background: none;
+    letter-spacing: 0.5px;
+    display: flex; align-items: center; gap: 6px;
+    transition: color .2s, border-color .2s;
+  }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:hover:not(.active) { color: var(--text); }
+  .tab-icon { font-size: 14px; }
+
+  /* CHANNEL GRID */
+  .channel-section { padding: 12px; }
+  .section-title {
+    font-size: 11px; font-weight: 700;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+    padding: 0 2px;
+  }
+  .channel-grid {
+    display: grid; gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  .channel-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 10px;
+    cursor: pointer;
+    transition: all .2s;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .channel-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0);
+    transition: transform .2s;
+    transform-origin: left;
+  }
+  .channel-card:hover {
+    border-color: rgba(249,115,22,0.4);
+    background: var(--bg3);
+  }
+  .channel-card:hover::before { transform: scaleX(1); }
+  .channel-card.active {
+    border-color: var(--accent);
+    background: rgba(249,115,22,0.08);
+  }
+  .channel-card.active::before { transform: scaleX(1); }
+  .channel-num {
+    font-size: 10px; font-weight: 700;
+    color: var(--accent); letter-spacing: 0.5px;
+  }
+  .channel-name {
+    font-size: 12px; font-weight: 600;
+    line-height: 1.3; color: var(--text);
+  }
+  .channel-live {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 10px; color: #4ade80;
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: pulse 1.5s infinite;
+  }
+
+  /* PANELS */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text2);
+  }
+  footer span { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">S</div>
+    <div class="logo-text">Sport<span>link</span></div>
+    <div class="live-badge">LIVE</div>
+  </div>
+  <div class="header-right">
+    <div class="games-badge">🏅 Asian Games 2026</div>
+  </div>
+</header>
+
+<!-- PLAYER -->
+<div class="player-section">
+  <div class="player-wrapper">
+    <div class="player-overlay" id="overlay">
+      <div class="play-icon">▶</div>
+      <p>Select a channel below to watch live</p>
+    </div>
+    <iframe id="player" src="about:blank" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+  </div>
+</div>
+
+<!-- INFO BAR -->
+<div class="channel-info-bar">
+  <div class="now-playing-label">Now Playing:</div>
+  <div class="now-playing-name" id="nowPlayingName">— Select a channel —</div>
+  <div id="platformBadge" class="platform-badge desktop" style="display:none;"></div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" data-tab="desktop">
+    <span class="tab-icon">🖥️</span> Desktop / PC
+  </button>
+  <button class="tab" data-tab="android">
+    <span class="tab-icon">🤖</span> Android
+  </button>
+  <button class="tab" data-tab="ios">
+    <span class="tab-icon">📱</span> iOS &amp; Android
+  </button>
+</div>
+
+<!-- PANELS -->
+<div class="tab-panel active" id="panel-desktop">
+  <div class="channel-section">
+    <div class="section-title">🏅 Asian Games 2026 — Sony Sports Live</div>
+    <div class="channel-grid" id="desktop-grid"></div>
+  </div>
+</div>
+
+<div class="tab-panel" id="panel-android">
+  <div class="channel-section">
+    <div class="section-title">🤖 Android Streams — Sony Sports</div>
+    <div class="channel-grid" id="android-grid"></div>
+  </div>
+</div>
+
+<div class="tab-panel" id="panel-ios">
+  <div class="channel-section">
+    <div class="section-title">📱 iOS &amp; Android Streams</div>
+    <div class="channel-grid" id="ios-grid"></div>
+  </div>
+</div>
+
+<footer>
+  <span>Sportlink</span> · Asian Games 2026 Live Streaming · All channels powered by Sony Sports
+</footer>
+
+<script>
+var desktopChannels = [
+  { name: "Sony Sports Ten 1 HD",       src: "https://sportlink-jtv.pages.dev/Channel/Sony_Sports_Ten_1_HD" },
+  { name: "Sony Sports Ten 2 HD",       src: "https://sportlink-jtv.pages.dev/Channel/Sony_Sports_Ten_2_HD" },
+  { name: "Sony Sports Ten 3 Hindi HD", src: "https://sportlink-jtv.pages.dev/Channel/Sony_Sports_Ten_3_Hindi_HD" },
+  { name: "Sony Sports Ten 4 Kannada",  src: "https://sportlink-jtv.pages.dev/Channel/Sony_Sports_Ten_4_Kannada" },
+  { name: "Sony Sports Ten 4 Tamil",    src: "https://sportlink-jtv.pages.dev/Channel/Sony_Sports_Ten_4_Tamil" },
+  { name: "Sony Sports Ten 4 Telugu",   src: "https://sportlink-jtv.pages.dev/Channel/Sony_Sports_Ten_4_Telugu" },
+  { name: "Sony Sports Ten 5 HD",       src: "https://sportlink-jtv.pages.dev/Channel/Sony_Sports_Ten_5_HD" }
+];
+
+var androidChannels = [
+  { name: "Sony Sport 1",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%201%20HD.in" },
+  { name: "Sony Sport 2",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%202%20HD.in" },
+  { name: "Sony Sport 3",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%203%20HD.in" },
+  { name: "Sony Sport 4 HD", src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%204%20HD.in" },
+  { name: "Sony Sport 4",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%204.in" },
+  { name: "Sony Sport 5",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%205%20HD.in" }
+];
+
+var iosChannels = [
+  { name: "Sony Sport 1",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%201%20HD.in" },
+  { name: "Sony Sport 2",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%202%20HD.in" },
+  { name: "Sony Sport 3",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%203%20HD.in" },
+  { name: "Sony Sport 4 HD", src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%204%20HD.in" },
+  { name: "Sony Sport 4",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%204.in" },
+  { name: "Sony Sport 5",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%205%20HD.in" }
+];
+
+var activeCard = null;
+
+function shortNum(name) {
+  var m = name.match(/(\d+)/);
+  return m ? 'TEN ' + m[1] : 'HD';
+}
+
+function buildGrid(channels, containerId, platform) {
+  var grid = document.getElementById(containerId);
+  if (!grid) return;
+  var html = '';
+  for (var i = 0; i < channels.length; i++) {
+    var ch = channels[i];
+    html += '<div class="channel-card" data-platform="' + platform + '" data-idx="' + i + '">' +
+              '<div class="channel-num">' + shortNum(ch.name) + '</div>' +
+              '<div class="channel-name">' + ch.name + '</div>' +
+              '<div class="channel-live"><div class="live-dot"></div>LIVE</div>' +
+            '</div>';
+  }
+  grid.innerHTML = html;
+
+  var cards = grid.querySelectorAll('.channel-card');
+  for (var j = 0; j < cards.length; j++) {
+    cards[j].addEventListener('click', function() {
+      var idx = parseInt(this.getAttribute('data-idx'), 10);
+      var plat = this.getAttribute('data-platform');
+      var list = plat === 'desktop' ? desktopChannels : (plat === 'android' ? androidChannels : iosChannels);
+      playChannel(list[idx], this, plat);
+    });
+  }
+}
+
+function playChannel(ch, card, platform) {
+  if (activeCard) activeCard.classList.remove('active');
+  activeCard = card;
+  card.classList.add('active');
+
+  var iframe = document.getElementById('player');
+  var overlay = document.getElementById('overlay');
+  var nameEl = document.getElementById('nowPlayingName');
+  var badge = document.getElementById('platformBadge');
+
+  iframe.src = ch.src;
+  iframe.style.display = 'block';
+  overlay.classList.add('hidden');
+
+  nameEl.textContent = ch.name;
+
+  badge.style.display = 'inline-block';
+  badge.className = 'platform-badge ' + platform;
+  var labels = { desktop: '🖥️ Desktop', android: '🤖 Android', ios: '📱 iOS & Android' };
+  badge.textContent = labels[platform] || platform;
+}
+
+function switchTab(tab, btn) {
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+  btn.classList.add('active');
+
+  var panels = document.querySelectorAll('.tab-panel');
+  for (var j = 0; j < panels.length; j++) panels[j].classList.remove('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+(function() {
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].addEventListener('click', function() {
+      switchTab(this.getAttribute('data-tab'), this);
+    });
+  }
+
+  buildGrid(desktopChannels, 'desktop-grid', 'desktop');
+  buildGrid(androidChannels, 'android-grid', 'android');
+  buildGrid(iosChannels,     'ios-grid',     'ios');
+})();
+</script>
+</body>
+</html>

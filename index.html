@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sportlink - Asian Games 2026 Live</title>
 
+
 <script src="https://pl31358401.profitableratecpmnetwork.com/a3/81/41/a38141b4ff99f6ef8dbf9dc5f76bd86b.js"></script>
 
 <style>
@@ -148,6 +149,9 @@
 
   /* CHANNEL GRID */
   .channel-section { padding: 12px; }
+  .channel-section + .channel-section {
+    border-top: 1px solid var(--border);
+  }
   .section-title {
     font-size: 11px; font-weight: 700;
     color: var(--text2);
@@ -156,6 +160,8 @@
     margin-bottom: 10px;
     padding: 0 2px;
   }
+  .section-title.server-a { color: #818cf8; }
+  .section-title.server-b { color: #4ade80; }
   .channel-grid {
     display: grid; gap: 8px;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -264,29 +270,27 @@
   <button class="tab active" data-tab="desktop">
     <span class="tab-icon">🖥️</span> Desktop / PC
   </button>
-  <button class="tab" data-tab="android">
-    <span class="tab-icon">🤖</span> Android
-  </button>
   <button class="tab" data-tab="ios">
     <span class="tab-icon">📱</span> iOS &amp; Android
   </button>
 </div>
 
-<!-- PANELS -->
+<!-- DESKTOP PANEL — TWO SERVERS -->
 <div class="tab-panel active" id="panel-desktop">
+
   <div class="channel-section">
-    <div class="section-title">🏅 Asian Games 2026 — Sony Sports Live</div>
-    <div class="channel-grid" id="desktop-grid"></div>
+    <div class="section-title server-a">🖥️ Server A — sportlink-jtv (HD)</div>
+    <div class="channel-grid" id="desktop-grid-a"></div>
   </div>
+
+  <div class="channel-section">
+    <div class="section-title server-b">🖥️ Server B — sportlink10-ajp (Backup)</div>
+    <div class="channel-grid" id="desktop-grid-b"></div>
+  </div>
+
 </div>
 
-<div class="tab-panel" id="panel-android">
-  <div class="channel-section">
-    <div class="section-title">🤖 Android Streams — Sony Sports</div>
-    <div class="channel-grid" id="android-grid"></div>
-  </div>
-</div>
-
+<!-- IOS PANEL -->
 <div class="tab-panel" id="panel-ios">
   <div class="channel-section">
     <div class="section-title">📱 iOS &amp; Android Streams</div>
@@ -299,7 +303,12 @@
 </footer>
 
 <script>
-var desktopChannels = [
+/* ============================================================
+   CHANNEL DATA — TWO SERVERS
+   ============================================================ */
+
+/* SERVER A — sportlink-jtv.pages.dev (Desktop primary) */
+var desktopChannelsA = [
   { name: "Sony Sports Ten 1 HD",       src: "https://sportlink-jtv.pages.dev/Channel/Sony_Sports_Ten_1_HD" },
   { name: "Sony Sports Ten 2 HD",       src: "https://sportlink-jtv.pages.dev/Channel/Sony_Sports_Ten_2_HD" },
   { name: "Sony Sports Ten 3 Hindi HD", src: "https://sportlink-jtv.pages.dev/Channel/Sony_Sports_Ten_3_Hindi_HD" },
@@ -309,7 +318,8 @@ var desktopChannels = [
   { name: "Sony Sports Ten 5 HD",       src: "https://sportlink-jtv.pages.dev/Channel/Sony_Sports_Ten_5_HD" }
 ];
 
-var androidChannels = [
+/* SERVER B — sportlink10-ajp.pages.dev (Desktop backup) */
+var desktopChannelsB = [
   { name: "Sony Sport 1",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%201%20HD.in" },
   { name: "Sony Sport 2",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%202%20HD.in" },
   { name: "Sony Sport 3",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%203%20HD.in" },
@@ -318,6 +328,7 @@ var androidChannels = [
   { name: "Sony Sport 5",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%205%20HD.in" }
 ];
 
+/* iOS — sportlink10-ajp.pages.dev */
 var iosChannels = [
   { name: "Sony Sport 1",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%201%20HD.in" },
   { name: "Sony Sport 2",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%202%20HD.in" },
@@ -326,6 +337,10 @@ var iosChannels = [
   { name: "Sony Sport 4",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%204.in" },
   { name: "Sony Sport 5",    src: "https://sportlink10-ajp.pages.dev/sn?id=SONY%20SPORTS%20TEN%205%20HD.in" }
 ];
+
+/* ============================================================
+   RENDER LOGIC
+   ============================================================ */
 
 var activeCard = null;
 
@@ -337,6 +352,7 @@ function shortNum(name) {
 function buildGrid(channels, containerId, platform) {
   var grid = document.getElementById(containerId);
   if (!grid) return;
+
   var html = '';
   for (var i = 0; i < channels.length; i++) {
     var ch = channels[i];
@@ -351,9 +367,12 @@ function buildGrid(channels, containerId, platform) {
   var cards = grid.querySelectorAll('.channel-card');
   for (var j = 0; j < cards.length; j++) {
     cards[j].addEventListener('click', function() {
-      var idx = parseInt(this.getAttribute('data-idx'), 10);
+      var idx  = parseInt(this.getAttribute('data-idx'), 10);
       var plat = this.getAttribute('data-platform');
-      var list = plat === 'desktop' ? desktopChannels : (plat === 'android' ? androidChannels : iosChannels);
+      var list;
+      if (plat === 'desktop-a')      list = desktopChannelsA;
+      else if (plat === 'desktop-b') list = desktopChannelsB;
+      else                           list = iosChannels;
       playChannel(list[idx], this, plat);
     });
   }
@@ -364,10 +383,10 @@ function playChannel(ch, card, platform) {
   activeCard = card;
   card.classList.add('active');
 
-  var iframe = document.getElementById('player');
-  var overlay = document.getElementById('overlay');
-  var nameEl = document.getElementById('nowPlayingName');
-  var badge = document.getElementById('platformBadge');
+  var iframe   = document.getElementById('player');
+  var overlay  = document.getElementById('overlay');
+  var nameEl   = document.getElementById('nowPlayingName');
+  var badge    = document.getElementById('platformBadge');
 
   iframe.src = ch.src;
   iframe.style.display = 'block';
@@ -376,8 +395,20 @@ function playChannel(ch, card, platform) {
   nameEl.textContent = ch.name;
 
   badge.style.display = 'inline-block';
-  badge.className = 'platform-badge ' + platform;
-  var labels = { desktop: '🖥️ Desktop', android: '🤖 Android', ios: '📱 iOS & Android' };
+
+  /* Map internal platform key → user-facing label */
+  var labels = {
+    'desktop-a': '🖥️ Desktop · Server A',
+    'desktop-b': '🖥️ Desktop · Server B',
+    'ios':       '📱 iOS & Android'
+  };
+  var cssClass = {
+    'desktop-a': 'desktop',
+    'desktop-b': 'desktop',
+    'ios':       'ios'
+  };
+
+  badge.className = 'platform-badge ' + (cssClass[platform] || 'desktop');
   badge.textContent = labels[platform] || platform;
 }
 
@@ -391,6 +422,9 @@ function switchTab(tab, btn) {
   document.getElementById('panel-' + tab).classList.add('active');
 }
 
+/* ============================================================
+   INIT
+   ============================================================ */
 (function() {
   var tabs = document.querySelectorAll('.tab');
   for (var i = 0; i < tabs.length; i++) {
@@ -399,9 +433,9 @@ function switchTab(tab, btn) {
     });
   }
 
-  buildGrid(desktopChannels, 'desktop-grid', 'desktop');
-  buildGrid(androidChannels, 'android-grid', 'android');
-  buildGrid(iosChannels,     'ios-grid',     'ios');
+  buildGrid(desktopChannelsA, 'desktop-grid-a', 'desktop-a');
+  buildGrid(desktopChannelsB, 'desktop-grid-b', 'desktop-b');
+  buildGrid(iosChannels,      'ios-grid',       'ios');
 })();
 </script>
 </body>
